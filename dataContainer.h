@@ -21,7 +21,7 @@ class dataContainer {
 		//Mutators
 		bool insert(T element, int position);
 		bool clear();
-		void swapElements(int position1, int position2);
+		bool buildArray(int newSize);
 		
 		void bubbleSort();
 		void selectionSort();
@@ -30,14 +30,17 @@ class dataContainer {
 		
 		//Accessors
 		T getDataElement(int position) const;
+		int getElementsArraySize() const;
 		int getAssignments() const;
 		int getComparisons() const;
-
-	private:
-		void mergeSort(T arr[], int l, int r);
-		void merge(T arr[], int l, int m, int r);
 		
-		void quickSort(T * elements, int l, int r);
+	private:
+		void swapElements(int position1, int position2);		
+		
+		void mergeSort(T * arr, int l, int r);
+		void merge(T * arr, int l, int m, int r);
+		
+		void quickSort(T * arr, int l, int r);
 		int randomizedPartition(T * arr, int l, int r);
 		int partition(T * arr, int l, int r);
 		

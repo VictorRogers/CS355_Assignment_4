@@ -1,8 +1,9 @@
 #include "dataContainer.h"
 #include <cstdlib>
+#include <iostream>
 
 //=====================================
-// Constructors
+// = Constructors =
 //=====================================
 
 //=================================================================================================
@@ -12,7 +13,12 @@
 // TODO:
 //=================================================================================================
 template <class T>
-dataContainer<T>::dataContainer() : size(0) {}
+dataContainer<T>::dataContainer() {
+	elements = 0;
+	size = 0;
+	assignments = 0;
+	comparisons = 0;
+}
 //=================================================================================================
 
 
@@ -24,8 +30,10 @@ dataContainer<T>::dataContainer() : size(0) {}
 // TODO:
 //=================================================================================================
 template <class T>
-dataContainer<T>::dataContainer(int size) : size(size) {
+dataContainer<T>::dataContainer(int size) {
 	elements = new T [size];
+	assignments = 0;
+	comparisons = 0;
 }
 //=================================================================================================
 
@@ -38,43 +46,15 @@ dataContainer<T>::dataContainer(int size) : size(size) {
 //=================================================================================================
 template <class T>
 dataContainer<T>::~dataContainer() {
-	delete [] elements;
+	if (size > 0)
+		delete [] elements;
 }
 //=================================================================================================
 
 
 //=====================================
-// Mutators
+// = Mutators =
 //=====================================
-
-//=================================================================================================
-// Class: dataContainer
-// Function: insert
-// Description: Inserts an item into the elements array at the desired position. 
-//				 Returns false if an attempt is made to insert an element outside of the range.
-// TODO:
-//=================================================================================================
-template <class T>
-bool dataContainer<T>::insert(T element, int position) {
-	if (position >= size) return false;
-	else {
-		elements[position] = element;
-	}
-}
-//=================================================================================================
-
-
-//=================================================================================================
-// Class: dataContainer
-// Function: clear
-// Description: Deletes the elements array
-// TODO:
-//=================================================================================================
-template <class T>
-bool dataContainer<T>::clear() {
-	delete [] elements;
-}
-//=================================================================================================
 
 
 //=================================================================================================
@@ -91,6 +71,56 @@ void dataContainer<T>::swapElements(int position1, int position2) {
 	assignments++;
 	elements[position2] = temp;	
 	assignments++;
+}
+//=================================================================================================
+
+
+//=================================================================================================
+// Class: dataContainer
+// Function: insert
+// Description: Inserts an item into the elements array at the desired position. 
+//				 Returns false if an attempt is made to insert an element outside of the range.
+// TODO:
+//=================================================================================================
+template <class T>
+bool dataContainer<T>::insert(T element, int position) {
+	if (position >= size) return false;
+	else {
+		elements[position] = element;
+		return true;
+	}
+}
+//=================================================================================================
+
+
+//=================================================================================================
+// Class: dataContainer
+// Function: clear
+// Description: Deletes the elements array
+// TODO:
+//=================================================================================================
+template <class T>
+bool dataContainer<T>::clear() {
+	if (size > 0)
+		delete [] elements;
+	size = 0;
+}
+//=================================================================================================
+
+
+//=================================================================================================
+// Class: dataContainer
+// Function: buildArray
+// Description: Builds a new array
+// TODO:
+//=================================================================================================
+template <class T>
+bool dataContainer<T>::buildArray(int newSize) {
+	if (size > 0)
+		return false;
+	elements = new T [newSize];
+	size = newSize;
+	return true;
 }
 //=================================================================================================
 
@@ -330,7 +360,7 @@ int dataContainer<T>::partition(T * arr, int l, int r) {
 
 
 //=====================================
-// Accessors
+// = Accessors =
 //=====================================
 
 //=================================================================================================
@@ -342,6 +372,19 @@ int dataContainer<T>::partition(T * arr, int l, int r) {
 template <class T>
 T dataContainer<T>::getDataElement(int position) const{
 	return elements[position];
+}
+//=================================================================================================
+
+
+//=================================================================================================
+// Class: dataContainer
+// Function: getElementsArraySize
+// Description: Returns an integer representing the current size of the elements array
+// TODO:
+//=================================================================================================
+template <class T>
+int dataContainer<T>::getElementsArraySize() const{
+	return size;
 }
 //=================================================================================================
 
@@ -368,18 +411,5 @@ int dataContainer<T>::getAssignments() const{
 template <class T>
 int dataContainer<T>::getComparisons() const{
 	return comparisons;
-}
-//=================================================================================================
-
-
-//=================================================================================================
-// Class: dataContainer
-// Function: getDataElement
-// Description: Returns an element from the requested position in the elements array
-// TODO:
-//=================================================================================================
-template <class T>
-T dataContainer<T>::getDataElement(int position) {
-	return elements[position];
 }
 //=================================================================================================
